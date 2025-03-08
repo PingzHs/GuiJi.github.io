@@ -510,7 +510,8 @@ function getRandomQuestion() {
     // 甜度比對
     let sugarAdjustment = adjustSugar(currentQuestion.甜度);
     let adjustedSugar = (currentQuestion.糖 || 0) + sugarAdjustment;
-    if (Number.isNaN(adjustedSugar)) adjustedSugar = 0;
+    if (Number.isNaN(adjustedSugar) || adjustedSugar < 0) adjustedSugar = 0;
+
 
     if (selectedOptions.甜度 !== String(adjustedSugar)) {
         correct = false;
@@ -599,6 +600,8 @@ function getRandomQuestion() {
     <h2 id="drink-name">隨機飲料</h2>
     <p>冰塊: <span id="ice-option"></span></p>
     <p>糖度: <span id="sugar-option"></span></p>
+    
+    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
     <div>
         <h3>冰塊</h3>
         <select id="冰塊選擇" onchange="document.getElementById('冰塊數字').style.display = this.value === '數字' ? 'inline' : 'none'">
@@ -607,12 +610,18 @@ function getRandomQuestion() {
             <option value="數字">填入數字</option>
         </select>
         <input type="number" id="冰塊數字" style="display: none;" placeholder="輸入數字">
-
     </div>
+
     <div>
         <h3>甜度</h3>
         <input type="number" id="甜度" min="0" max="100" placeholder="輸入甜度">
     </div>
+
+    <div>
+        <h3>檔速</h3>
+        <input type="number" id="檔速" min="0" max="10" placeholder="輸入檔速">
+    </div>
+</div>
     <div>
         <h3>茶湯</h3>
         <input type="number" id="茶湯_茶" placeholder="茶: 輸入數字">
@@ -639,10 +648,7 @@ function getRandomQuestion() {
         <label><input type="radio" name="條件" value="水"> 水</label>
         <label><input type="radio" name="條件" value="各半"> 各半</label>
     </div>
-    <div>
-        <h3>檔速</h3>
-        <input type="number" id="檔速" min="0" max="10" placeholder="輸入檔速">
-    </div>
+    
     <div>
         <h3>杯內副料</h3>
 <select id="杯內副料">
@@ -662,4 +668,3 @@ function getRandomQuestion() {
     <button onclick="checkAnswer()">提交</button>
 </body>
 </html>
-
