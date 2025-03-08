@@ -446,18 +446,24 @@
         const sugarOptions = ["正常", "八分", "半糖", "三分", "一分", "去糖"];
 
         let currentQuestion = {};
+        
 
-        function getRandomQuestion() {
-            const randomDrink = drinksData[Math.floor(Math.random() * drinksData.length)];
-            const randomIce = iceOptions[Math.floor(Math.random() * iceOptions.length)];
-            const randomSugar = sugarOptions[Math.floor(Math.random() * sugarOptions.length)];
+function getRandomQuestion() { 
 
-            currentQuestion = { ...randomDrink, 冰塊: randomIce, 甜度: randomSugar };
-            document.getElementById("drink-name").textContent = currentQuestion.品名;
-            document.getElementById("ice-option").textContent = currentQuestion.冰塊;
-            document.getElementById("sugar-option").textContent = currentQuestion.甜度;
-        }
+    const randomDrink = drinksData[Math.floor(Math.random() * drinksData.length)];
+    const randomIce = iceOptions[Math.floor(Math.random() * iceOptions.length)];
+    const randomSugar = sugarOptions[Math.floor(Math.random() * sugarOptions.length)];
 
+    currentQuestion = { ...randomDrink, 冰塊: randomIce, 甜度: randomSugar };
+
+    document.getElementById("drink-name").textContent = currentQuestion.品名;
+    document.getElementById("ice-option").textContent = currentQuestion.冰塊;
+    document.getElementById("sugar-option").textContent = currentQuestion.甜度;
+}
+
+        
+        
+		
         function adjustSugar(sugarOption) {
             switch (sugarOption) {
                 case "八分": return -1;
@@ -562,6 +568,27 @@
         alert("答錯了！正確答案:\n" + correctAnswer);
         getRandomQuestion();
     }
+    document.getElementById("冰塊選擇").value = "尖";  // 重置冰塊選擇
+    document.getElementById("冰塊數字").value = "";     // 清空冰塊數字
+    document.getElementById("冰塊數字").style.display = "none";  // 隱藏數字輸入框
+    document.getElementById("甜度").value = "";          // 清空甜度
+    document.getElementById("檔速").value = "";          // 清空檔速
+    document.getElementById("杯內副料").value = "無";    // 重置杯內副料
+	document.getElementById("茶湯_茶").value = "";
+    document.getElementById("茶湯_水").value = "";
+    document.getElementById("茶湯_楊桃").value = "";
+    document.getElementById("茶湯_冬瓜").value = "";
+    document.getElementById("茶湯_豆漿").value = "";
+    document.getElementById("茶湯_甘蔗").value = "";
+    document.getElementById("茶湯_奶精").value = "";
+    document.getElementById("茶湯_檸檬").value = "";
+    document.getElementById("茶湯_柳丁").value = "";
+    document.getElementById("茶湯_蘋果").value = "";
+    document.getElementById("茶湯_鳳梨").value = "";
+	document.getElementById("茶湯_葡萄").value = "";
+    document.getElementById("茶湯_鮮奶").value = "";
+	document.getElementById("茶湯_蜜").value = "";
+    document.getElementById("茶湯_巧克力水").value = "";
 }
 
     </script>
