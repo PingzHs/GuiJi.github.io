@@ -601,31 +601,32 @@ function getRandomQuestion() {
     <p>冰塊: <span id="ice-option"></span></p>
     <p>糖度: <span id="sugar-option"></span></p>
     
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; width: 100%;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; width: 100%; flex-wrap: wrap;">
     <!-- 冰塊（最左邊） -->
-    <div style="flex: 1; display: flex; flex-direction: column; align-items: flex-start;">
+    <div style="flex: 1; min-width: 100px; max-width: 33%; display: flex; flex-direction: column; align-items: flex-start;">
         <h3 style="margin: 0; text-align: left;">冰塊</h3>
-        <select id="冰塊選擇" style="margin-top: 5px; width: 200px;" 
+        <select id="冰塊選擇" style="margin-top: 5px; width: 90%;" 
             onchange="document.getElementById('冰塊數字').style.display = this.value === '數字' ? 'inline' : 'none'">
             <option value="尖">尖</option>
             <option value="平">平</option>
             <option value="數字">填入數字</option>
         </select>
-        <input type="number" id="冰塊數字" style="display: none; margin-top: 5px; width: 200px;" placeholder="輸入數字">
+        <input type="number" id="冰塊數字" style="display: none; margin-top: 5px; width: 90%;" placeholder="輸入數字">
     </div>
 
     <!-- 甜度（正中間） -->
-    <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
-        <h3 style="margin: 0; text-align: left; width: 200px;">甜度</h3>
-        <input type="number" id="甜度" min="0" max="100" placeholder="輸入甜度" style="margin-top: 5px; width: 200px;">
+    <div style="flex: 1; min-width: 100px; max-width: 33%; display: flex; flex-direction: column; align-items: center;">
+        <h3 style="margin: 0; text-align: left; width: 90%;">甜度</h3>
+        <input type="number" id="甜度" min="0" max="100" placeholder="輸入甜度" style="margin-top: 5px; width: 90%;">
     </div>
 
-    <!-- 檔速（最右邊，標題靠左對齊） -->
-    <div style="flex: 1; display: flex; flex-direction: column; align-items: flex-end;">
-        <h3 style="margin: 0; text-align: left; width: 200px;">檔速</h3>
-        <input type="number" id="檔速" min="0" max="100" placeholder="輸入檔速" style="margin-top: 5px; width: 200px;">
+    <!-- 檔速（最右邊） -->
+    <div style="flex: 1; min-width: 100px; max-width: 33%; display: flex; flex-direction: column; align-items: flex-end;">
+        <h3 style="margin: 0; text-align: left; width: 90%;">檔速</h3>
+        <input type="number" id="檔速" min="0" max="100" placeholder="輸入檔速" style="margin-top: 5px; width: 90%;">
     </div>
 </div>
+
 
 
     <div>
