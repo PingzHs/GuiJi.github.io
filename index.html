@@ -204,7 +204,7 @@
         "檔速": 2,
         "杯內副料": "百香  60",
         "成分": {
-            "茶": 200,
+            "茶": 200
         }
     },
     {
@@ -476,72 +476,94 @@
         }
 
         function checkAnswer() {
-            const selectedOptions = {
-                冰塊: document.getElementById("冰塊選擇").value,
-                甜度: parseInt(document.getElementById("甜度").value) || 0,
-                茶湯_茶: parseInt(document.getElementById("茶湯_茶").value) || 0,
-                茶湯_水: parseInt(document.getElementById("茶湯_水").value) || 0,
-                條件: document.querySelector("input[name='條件']:checked")?.value,
-                檔速: parseInt(document.getElementById("檔速").value) || 0,
-                杯內副料: document.getElementById("杯內副料").value
-            };
+    const selectedOptions = {
+        冰塊: document.getElementById("冰塊選擇").value,
+        甜度: document.getElementById("甜度").value, // 甜度是字串（如 "正常"）
+        條件: document.querySelector("input[name='條件']:checked")?.value || "",
+        檔速: parseInt(document.getElementById("檔速").value) || 0,
+        杯內副料: document.getElementById("杯內副料").value || ""
+    };
 
-            let correct = true;
-            let correctAnswer = "";
+    const teaIngredients = ["茶", "水", "楊桃", "冬瓜", "豆漿", "甘蔗", "奶精", "檸檬", "柳丁", "蘋果", "鳳梨", "葡萄", "鮮奶", "蜜", "巧克力水", "濃乳"];
 
-            // 取得 drinksData 中的冰作為正確答案
-            const correctIce = currentQuestion.冰;
+    // 讀取所有茶湯成分
+    for (let ingredient of teaIngredients) {
+        selectedOptions[`茶湯_${ingredient}`] = parseInt(document.getElementById(`茶湯_${ingredient}`)?.value) || 0;
+    }
 
-            // 調整糖度
-            const sugarAdjustment = adjustSugar(currentQuestion.甜度);
-            let adjustedSugar = currentQuestion.糖 + sugarAdjustment;
-            if (adjustedSugar < 0) {
-                adjustedSugar = 0;
-            }
-            if (selectedOptions.甜度 !== adjustedSugar) {
+    let correct = true;
+    let correctAnswer = "";
+
+    // 冰塊比對
+    const correctIce = String(currentQuestion.冰);
+    if (String(selectedOptions.冰塊) !== correctIce) {
+        correct = false;
+        correctAnswer += `冰塊: ${correctIce}\n`;
+    }
+
+    // 甜度比對
+    let sugarAdjustment = adjustSugar(currentQuestion.甜度);
+    let adjustedSugar = (currentQuestion.糖 || 0) + sugarAdjustment;
+    if (Number.isNaN(adjustedSugar)) adjustedSugar = 0;
+
+    if (selectedOptions.甜度 !== String(adjustedSugar)) {
+        correct = false;
+        correctAnswer += `甜度: ${adjustedSugar}\n`;
+    }
+
+    // **茶與水的調整**
+    let teaAdjustment = 0, waterAdjustment = 0;
+
+    if (currentQuestion.甜度 !== "正常") {
+        const adjustment = adjustTeaAndWater(currentQuestion.條件, 20);
+        teaAdjustment += adjustment.茶;
+        waterAdjustment += adjustment.水;
+    }
+
+    if (currentQuestion.冰塊 !== "正常") {
+        const adjustment = adjustTeaAndWater(currentQuestion.條件, 20);
+        teaAdjustment += adjustment.茶;
+        waterAdjustment += adjustment.水;
+    }
+
+    const correctTea = (currentQuestion?.成分?.茶 || 0) + teaAdjustment;
+    const correctWater = (currentQuestion?.成分?.水 || 0) + waterAdjustment;
+
+    if (selectedOptions.茶湯_茶 !== correctTea || selectedOptions.茶湯_水 !== correctWater) {
+        correct = false;
+        correctAnswer += `茶湯: 茶 ${correctTea}, 水 ${correctWater}\n`;
+    }
+
+    // 成分比對
+    for (let ingredient in currentQuestion.成分) {
+        if (ingredient !== "茶" && ingredient !== "水") {  // 茶與水已經特別處理
+            let selectedAmount = selectedOptions[`茶湯_${ingredient}`] || 0;
+            let correctAmount = currentQuestion.成分[ingredient] || 0;
+
+            if (selectedAmount !== correctAmount) {
                 correct = false;
-                correctAnswer += `甜度: ${adjustedSugar}\n`;
-            }
-
-            // 調整茶湯
-            let teaAdjustment = 0, waterAdjustment = 0;
-
-            if (currentQuestion.甜度 !== "正常") {
-                const adjustment = adjustTeaAndWater(currentQuestion.條件, 20);
-                teaAdjustment += adjustment.茶;
-                waterAdjustment += adjustment.水;
-            }
-
-            if (currentQuestion.冰塊 !== "正常") {
-                const adjustment = adjustTeaAndWater(currentQuestion.條件, 20);
-                teaAdjustment += adjustment.茶;
-                waterAdjustment += adjustment.水;
-            }
-
-            if (selectedOptions.茶湯_茶 !== (currentQuestion?.成分?.茶 || 0) + teaAdjustment ||
-                selectedOptions.茶湯_水 !== (currentQuestion?.成分?.水 || 0) + waterAdjustment) {
-                correct = false;
-                correctAnswer += `茶湯: 茶 ${currentQuestion?.成分?.茶 + teaAdjustment || 0}, 水 ${currentQuestion?.成分?.水 + waterAdjustment || 0}\n`;
-            }
-
-            for (let key of ["冰塊", "條件", "檔速", "杯內副料"]) {
-                if (key === "冰塊" && selectedOptions[key] !== correctIce) {
-                    correct = false;
-                    correctAnswer += `冰塊: ${correctIce}\n`;
-                } else if (key !== "冰塊" && selectedOptions[key] !== currentQuestion[key]) {
-                    correct = false;
-                    correctAnswer += `${key}: ${currentQuestion[key]}\n`;
-                }
-            }
-
-            if (correct) {
-                alert("答對了！下一題");
-                getRandomQuestion();
-            } else {
-                alert("答錯了！正確答案:\n" + correctAnswer);
-                getRandomQuestion();
+                correctAnswer += `茶湯_${ingredient}: ${correctAmount}\n`;
             }
         }
+    }
+
+    // 其他項目比對
+    for (let key of ["條件", "檔速", "杯內副料"]) {
+        if ((selectedOptions[key] || "") !== (currentQuestion[key] || "")) {
+            correct = false;
+            correctAnswer += `${key}: ${currentQuestion[key]}\n`;
+        }
+    }
+
+    if (correct) {
+        alert("答對了！下一題");
+        getRandomQuestion();
+    } else {
+        alert("答錯了！正確答案:\n" + correctAnswer);
+        getRandomQuestion();
+    }
+}
+
     </script>
 </head>
 <body onload="getRandomQuestion()">
@@ -566,6 +588,19 @@
         <h3>茶湯</h3>
         <input type="number" id="茶湯_茶" placeholder="茶: 輸入數字">
         <input type="number" id="茶湯_水" placeholder="水: 輸入數字">
+        <input type="number" id="茶湯_楊桃" placeholder="楊桃: 輸入數字">
+        <input type="number" id="茶湯_冬瓜" placeholder="冬瓜: 輸入數字">
+        <input type="number" id="茶湯_豆漿" placeholder="豆漿: 輸入數字">
+        <input type="number" id="茶湯_甘蔗" placeholder="甘蔗: 輸入數字">
+        <input type="number" id="茶湯_奶精" placeholder="奶精: 輸入數字">
+        <input type="number" id="茶湯_檸檬" placeholder="檸檬: 輸入數字">
+        <input type="number" id="茶湯_柳丁" placeholder="柳丁: 輸入數字">
+        <input type="number" id="茶湯_蘋果" placeholder="蘋果: 輸入數字">
+        <input type="number" id="茶湯_鳳梨" placeholder="鳳梨: 輸入數字">
+        <input type="number" id="茶湯_葡萄" placeholder="葡萄: 輸入數字">
+        <input type="number" id="茶湯_鮮奶" placeholder="鮮奶: 輸入數字">
+        <input type="number" id="茶湯_蜜" placeholder="蜜: 輸入數字">
+        <input type="number" id="茶湯_巧克力水" placeholder="巧克力水: 輸入數字">
     </div>
     <div>
         <h3>條件</h3>
