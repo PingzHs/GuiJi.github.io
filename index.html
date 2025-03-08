@@ -490,7 +490,7 @@ function getRandomQuestion() {
         杯內副料: document.getElementById("杯內副料").value || ""
     };
 
-    const teaIngredients = ["茶", "水", "楊桃", "冬瓜", "豆漿", "甘蔗", "奶精", "檸檬", "柳丁", "蘋果", "鳳梨", "葡萄", "鮮奶", "蜜", "巧克力水", "濃乳"];
+    const teaIngredients = ["茶", "水", "楊桃", "冬瓜", "豆漿", "甘蔗", "奶精", "檸檬", "柚子", "柳丁", "蘋果", "鳳梨", "葡萄", "鮮奶", "濃乳", "蜜", "巧克力水", "濃乳"];
 
     // 讀取所有茶湯成分
     for (let ingredient of teaIngredients) {
@@ -582,11 +582,13 @@ function getRandomQuestion() {
     document.getElementById("茶湯_甘蔗").value = "";
     document.getElementById("茶湯_奶精").value = "";
     document.getElementById("茶湯_檸檬").value = "";
+    document.getElementById("茶湯_柚子").value = "";
     document.getElementById("茶湯_柳丁").value = "";
     document.getElementById("茶湯_蘋果").value = "";
     document.getElementById("茶湯_鳳梨").value = "";
 	document.getElementById("茶湯_葡萄").value = "";
     document.getElementById("茶湯_鮮奶").value = "";
+    document.getElementById("茶湯_濃乳").value = "";
 	document.getElementById("茶湯_蜜").value = "";
     document.getElementById("茶湯_巧克力水").value = "";
 }
@@ -618,14 +620,16 @@ function getRandomQuestion() {
         <input type="number" id="茶湯_楊桃" placeholder="楊桃: 輸入數字">
         <input type="number" id="茶湯_冬瓜" placeholder="冬瓜: 輸入數字">
         <input type="number" id="茶湯_豆漿" placeholder="豆漿: 輸入數字">
-        <input type="number" id="茶湯_甘蔗" placeholder="甘蔗: 輸入數字">
-        <input type="number" id="茶湯_奶精" placeholder="奶精: 輸入數字">
+        <input type="number" id="茶湯_甘蔗" placeholder="甘蔗: 輸入數字"> 
         <input type="number" id="茶湯_檸檬" placeholder="檸檬: 輸入數字">
+        <input type="number" id="茶湯_柚子" placeholder="柚子: 輸入數字">
         <input type="number" id="茶湯_柳丁" placeholder="柳丁: 輸入數字">
         <input type="number" id="茶湯_蘋果" placeholder="蘋果: 輸入數字">
         <input type="number" id="茶湯_鳳梨" placeholder="鳳梨: 輸入數字">
         <input type="number" id="茶湯_葡萄" placeholder="葡萄: 輸入數字">
+        <input type="number" id="茶湯_奶精" placeholder="奶精: 輸入數字">
         <input type="number" id="茶湯_鮮奶" placeholder="鮮奶: 輸入數字">
+        <input type="number" id="茶湯_濃乳" placeholder="濃乳: 輸入數字">
         <input type="number" id="茶湯_蜜" placeholder="蜜: 輸入數字">
         <input type="number" id="茶湯_巧克力水" placeholder="巧克力水: 輸入數字">
     </div>
@@ -658,3 +662,4 @@ function getRandomQuestion() {
     <button onclick="checkAnswer()">提交</button>
 </body>
 </html>
+
