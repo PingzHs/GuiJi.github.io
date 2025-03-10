@@ -449,18 +449,16 @@
         let currentQuestion = {};
         
 
-function getRandomQuestion() { 
+function getRandomQuestion() {
+            const randomDrink = drinksData[Math.floor(Math.random() * drinksData.length)];
+            const randomIce = iceOptions[Math.floor(Math.random() * iceOptions.length)];
+            const randomSugar = sugarOptions[Math.floor(Math.random() * sugarOptions.length)];
 
-    const randomDrink = drinksData[Math.floor(Math.random() * drinksData.length)];
-    const randomIce = iceOptions[Math.floor(Math.random() * iceOptions.length)];
-    const randomSugar = sugarOptions[Math.floor(Math.random() * sugarOptions.length)];
-
-    currentQuestion = { ...randomDrink, 冰塊: randomIce, 甜度: randomSugar };
-
-    document.getElementById("drink-name").textContent = currentQuestion.品名;
-    document.getElementById("ice-option").textContent = currentQuestion.冰塊;
-    document.getElementById("sugar-option").textContent = currentQuestion.甜度;
-}
+            currentQuestion = { ...randomDrink, 冰塊: randomIce, 甜度: randomSugar };
+            document.getElementById("drink-name").textContent = currentQuestion.品名;
+            document.getElementById("ice-option").textContent = currentQuestion.冰塊;
+            document.getElementById("sugar-option").textContent = currentQuestion.甜度;
+        }
 
         
         
@@ -522,17 +520,34 @@ function getRandomQuestion() {
     // **茶與水的調整**
     let teaAdjustment = 0, waterAdjustment = 0;
 
-    if (currentQuestion.甜度 !== "正常") {
-        const adjustment = adjustTeaAndWater(currentQuestion.條件, 20);
-        teaAdjustment += adjustment.茶;
-        waterAdjustment += adjustment.水;
-    }
+// 甜度影響（如果不是"正常"）
+if (currentQuestion.甜度 !== "正常") {
+    const adjustment = adjustTeaAndWater(currentQuestion.條件, 20);
+    teaAdjustment += adjustment.茶;
+    waterAdjustment += adjustment.水;
+}
 
-    if (currentQuestion.冰塊 !== "正常") {
-        const adjustment = adjustTeaAndWater(currentQuestion.條件, 20);
-        teaAdjustment += adjustment.茶;
-        waterAdjustment += adjustment.水;
-    }
+// 冰塊影響（如果不是"正常"）
+if (currentQuestion.冰塊 !== "正常") {
+    const adjustment = adjustTeaAndWater(currentQuestion.條件, 20);
+    teaAdjustment += adjustment.茶;
+    waterAdjustment += adjustment.水;
+}
+
+// 額外條件：如果是「去冰」，再額外加 40
+if (currentQuestion.冰塊 === "去冰") {
+    const adjustment = adjustTeaAndWater(currentQuestion.條件, 20);
+    teaAdjustment += adjustment.茶;
+    waterAdjustment += adjustment.水;
+}
+
+// 額外條件：如果是「去糖」，再額外加 40
+if (currentQuestion.甜度 === "去糖") {
+    const adjustment = adjustTeaAndWater(currentQuestion.條件, 20);
+    teaAdjustment += adjustment.茶;
+    waterAdjustment += adjustment.水;
+}
+
 
     const correctTea = (currentQuestion?.成分?.茶 || 0) + teaAdjustment;
     const correctWater = (currentQuestion?.成分?.水 || 0) + waterAdjustment;
