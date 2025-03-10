@@ -500,11 +500,18 @@ function getRandomQuestion() {
     let correctAnswer = "";
 
     // 冰塊比對
-    const correctIce = String(currentQuestion.冰);
-    if (String(selectedOptions.冰塊) !== correctIce) {
-        correct = false;
-        correctAnswer += `冰塊: ${correctIce}\n`;
-    }
+    let selectedIce = document.getElementById("冰塊選擇").value;
+if (selectedIce === "數字") {
+    selectedIce = document.getElementById("冰塊數字").value;
+}
+
+// 確保型別一致
+const correctIce = String(currentQuestion.冰);
+if (String(selectedIce) !== correctIce) {
+    correct = false;
+    correctAnswer += `冰塊: ${correctIce}\n`;
+}
+
 
     // 甜度比對
     let sugarAdjustment = adjustSugar(currentQuestion.甜度);
@@ -622,12 +629,13 @@ if (currentQuestion.甜度 === "去糖") {
     <div style="flex: 1; min-width: 100px; max-width: 33%; display: flex; flex-direction: column; align-items: flex-start;">
         <h3 style="margin: 0; text-align: left;">冰塊</h3>
         <select id="冰塊選擇" style="margin-top: 5px; width: 90%;" 
-            onchange="document.getElementById('冰塊數字').style.display = this.value === '數字' ? 'inline' : 'none'">
-            <option value="尖">尖</option>
-            <option value="平">平</option>
-            <option value="數字">填入數字</option>
-        </select>
-        <input type="number" id="冰塊數字" style="display: none; margin-top: 5px; width: 90%;" placeholder="輸入數字">
+    onchange="document.getElementById('冰塊數字').style.display = this.value === '數字' ? 'inline' : 'none'">
+    <option value="尖">尖</option>
+    <option value="平">平</option>
+    <option value="數字">填入數字</option>
+</select>
+<input type="number" id="冰塊數字" style="display: none; margin-top: 5px; width: 90%;" placeholder="輸入數字">
+
     </div>
 
     <!-- 甜度（正中間） -->
