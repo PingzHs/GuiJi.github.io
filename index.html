@@ -323,9 +323,10 @@
         "糖": 12,
         "條件": "茶",
         "檔速": 2,
-        "杯內副料": "鮮奶150",
+        "杯內副料": "無",
         "成分": {
-            "茶": 250
+            "茶": 250,
+            "鮮奶": 150
         }
     },
     {
@@ -334,9 +335,10 @@
         "糖": 12,
         "條件": "茶",
         "檔速": 1,
-        "杯內副料": "鮮奶 150",
+        "杯內副料": "無",
         "成分": {
-            "茶": 200
+            "茶": 200,
+            "鮮奶": 150
         }
     },
     {
@@ -358,9 +360,10 @@
         "糖": 12,
         "條件": "茶",
         "檔速": 1,
-        "杯內副料": "鮮奶 150",
+        "杯內副料": "無",
         "成分": {
-            "茶": 300
+            "茶": 300,
+            "鮮奶": 150
         }
     },
     {
@@ -369,10 +372,11 @@
         "糖": 12,
         "條件": "水",
         "檔速": 2,
-        "杯內副料": "鮮奶 120",
+        "杯內副料": "無",
         "成分": {
             "巧克力水": 100,
-            "濃乳": 150
+            "濃乳": 150,
+            "鮮奶": 120
         }
     },
     {
@@ -446,6 +450,13 @@
 
         const iceOptions = ["正常", "少冰", "微冰", "去冰"];
         const sugarOptions = ["正常", "八分", "半糖", "三分", "一分", "去糖"];
+        const milkReductionItems = new Set([
+    "鮮乳茶\n(紅/綠)",
+    "碎銀普洱鮮乳",
+    "冬瓜鮮乳",
+    "鮮乳茶\n(濃乳/紅烏)",
+    "巧克鮮乳茶"
+]);
 
         let currentQuestion = {};
         let ac = 0;
@@ -537,7 +548,7 @@ if (String(selectedIce) !== correctIce) {
     }
 
     // **茶與水的調整**
-    let teaAdjustment = 0, waterAdjustment = 0;
+    let teaAdjustment = 0, waterAdjustment = 0, milkAdjustment = 0;
 
 // 甜度影響（如果不是"正常"）
 if (currentQuestion.甜度 !== "正常") {
@@ -572,27 +583,38 @@ if (currentQuestion.加料 > 0) {
     teaAdjustment += adjustment.茶;
     waterAdjustment += adjustment.水;
 }
+if (milkReductionItems.has(currentQuestion.品名) && currentQuestion.加料 > 0) {
+    milkAdjustment = -20 * currentQuestion.加料; 
+}
 
     const correctTea = (currentQuestion?.成分?.茶 || 0) + teaAdjustment;
-    const correctWater = (currentQuestion?.成分?.水 || 0) + waterAdjustment;
+const correctWater = (currentQuestion?.成分?.水 || 0) + waterAdjustment;
+const correctMilk = Math.max(0, (currentQuestion?.成分?.鮮奶 || 0) + milkAdjustment); // 確保不為負數
 
-    if (selectedOptions.茶湯_茶 !== correctTea || selectedOptions.茶湯_水 !== correctWater) {
-        correct = false;
-        correctAnswer += `茶湯: 茶 ${correctTea}, 水 ${correctWater}\n`;
-    }
+// 🔹 **比對茶 & 水**
+if (selectedOptions.茶湯_茶 !== correctTea || selectedOptions.茶湯_水 !== correctWater) {
+    correct = false;
+    correctAnswer += `茶湯: 茶 ${correctTea}, 水 ${correctWater}\n`;
+}
 
-    // 成分比對
-    for (let ingredient in currentQuestion.成分) {
-        if (ingredient !== "茶" && ingredient !== "水") {  // 茶與水已經特別處理
-            let selectedAmount = selectedOptions[`茶湯_${ingredient}`] || 0;
-            let correctAmount = currentQuestion.成分[ingredient] || 0;
+// 🔹 **比對所有其他成分**
+for (let ingredient in currentQuestion.成分) {
+    if (ingredient !== "茶" && ingredient !== "水") {  // 茶與水已經特別處理
+        let selectedAmount = selectedOptions[`茶湯_${ingredient}`] || 0;
+        let correctAmount = currentQuestion.成分[ingredient] || 0;
 
-            if (selectedAmount !== correctAmount) {
-                correct = false;
-                correctAnswer += `茶湯_${ingredient}: ${correctAmount}\n`;
-            }
+        // ✅ **如果是鮮乳，則使用 `correctMilk` 進行比對**
+        if (ingredient === "鮮奶") {
+            correctAmount = correctMilk; 
+        }
+
+        if (selectedAmount !== correctAmount) {
+            correct = false;
+            correctAnswer += `茶湯_${ingredient}: ${correctAmount}\n`;
         }
     }
+}
+
 
     // 其他項目比對
     for (let key of ["條件", "檔速", "杯內副料"]) {
@@ -719,8 +741,6 @@ if (currentQuestion.加料 > 0) {
     <option value="紅柚 150">紅柚 150</option>
     <option value="蘆薈 110±5g">蘆薈 110±5g</option>
     <option value="蜜桃 100">蜜桃 100</option>
-    <option value="鮮奶 150">鮮奶 150</option>
-    <option value="鮮奶 120">鮮奶 120</option>
 </select>
     <div style="text-align: center; margin-top: 20px;">
     <button onclick="checkAnswer()" style="padding: 10px 20px; font-size: 18px; border-radius: 8px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
