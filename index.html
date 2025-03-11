@@ -133,7 +133,7 @@
         "杯內副料": "無",
         "成分": {
             "茶": 150,
-            "豆漿": 200
+            "豆漿": 250
         }
         
     },
@@ -454,11 +454,18 @@ function getRandomQuestion() {
             const randomDrink = drinksData[Math.floor(Math.random() * drinksData.length)];
             const randomIce = iceOptions[Math.floor(Math.random() * iceOptions.length)];
             const randomSugar = sugarOptions[Math.floor(Math.random() * sugarOptions.length)];
-
-            currentQuestion = { ...randomDrink, 冰塊: randomIce, 甜度: randomSugar };
+            function getWeightedRandom() {
+    const rand = Math.random();
+    if (rand < 0.7) return 0; // 70% 機率選 0
+    else if (rand < 0.9) return 1; // 15% 機率選 1
+    else return 2; // 15% 機率選 2
+}
+			const randomNumber = getWeightedRandom(); // 產生加權隨機數
+            currentQuestion = { ...randomDrink, 冰塊: randomIce, 甜度: randomSugar, 加料: randomNumber };
             document.getElementById("drink-name").textContent = currentQuestion.品名;
             document.getElementById("ice-option").textContent = currentQuestion.冰塊;
             document.getElementById("sugar-option").textContent = currentQuestion.甜度;
+            document.getElementById("add-option").textContent = currentQuestion.加料;
         }
 
         
@@ -516,9 +523,12 @@ if (String(selectedIce) !== correctIce) {
 
     // 甜度比對
     let sugarAdjustment = adjustSugar(currentQuestion.甜度);
+    if (currentQuestion.加料 !== 0) {
+    sugarAdjustment -= 1;
+}
     let adjustedSugar = (currentQuestion.糖 || 0) + sugarAdjustment;
     if (Number.isNaN(adjustedSugar) || adjustedSugar < 0) adjustedSugar = 0;
-
+	
 
     if (selectedOptions.甜度 !== String(adjustedSugar)) {
         correct = false;
@@ -556,6 +566,11 @@ if (currentQuestion.甜度 === "去糖") {
     waterAdjustment += adjustment.水;
 }
 
+if (currentQuestion.加料 > 0) {
+    const adjustment = adjustTeaAndWater(currentQuestion.條件, -40);
+    teaAdjustment += adjustment.茶;
+    waterAdjustment += adjustment.水;
+}
 
     const correctTea = (currentQuestion?.成分?.茶 || 0) + teaAdjustment;
     const correctWater = (currentQuestion?.成分?.水 || 0) + waterAdjustment;
@@ -631,6 +646,7 @@ let ac = 0;
     <h2 id="drink-name">隨機飲料</h2>
     <p>冰塊: <span id="ice-option"></span></p>
     <p>糖度: <span id="sugar-option"></span></p>
+    <p>加料: <span id="add-option"></span></p>
 	<div style="position: absolute; top: 10px; right: 10px; text-align: right;">
     <p>連續答對: <span id="連續答對">0</span></p>
     <p>累積答對: <span id="累積答對">0</span></p>
