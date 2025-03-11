@@ -448,7 +448,8 @@
         const sugarOptions = ["正常", "八分", "半糖", "三分", "一分", "去糖"];
 
         let currentQuestion = {};
-        
+        let ac = 0;
+        let cc = 0;
 
 function getRandomQuestion() {
             const randomDrink = drinksData[Math.floor(Math.random() * drinksData.length)];
@@ -600,8 +601,6 @@ if (currentQuestion.加料 > 0) {
             correctAnswer += `${key}: ${currentQuestion[key]}\n`;
         }
     }
-let cc = 0;
-let ac = 0;
 
     if (correct) {
         alert("答對了！下一題");
