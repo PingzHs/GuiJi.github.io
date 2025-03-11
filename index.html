@@ -585,14 +585,21 @@ if (currentQuestion.甜度 === "去糖") {
             correctAnswer += `${key}: ${currentQuestion[key]}\n`;
         }
     }
+let cc = 0;
+let ac = 0;
 
     if (correct) {
         alert("答對了！下一題");
+        cc++;
+        ac++;
         getRandomQuestion();
     } else {
         alert("答錯了！正確答案:\n" + correctAnswer);
+        cc = 0;
         getRandomQuestion();
     }
+	document.getElementById("連續答對").textContent = cc;
+    document.getElementById("累積答對").textContent = ac;
     document.getElementById("冰塊選擇").value = "尖";  // 重置冰塊選擇
     document.getElementById("冰塊數字").value = "";     // 清空冰塊數字
     document.getElementById("冰塊數字").style.display = "none";  // 隱藏數字輸入框
@@ -624,6 +631,10 @@ if (currentQuestion.甜度 === "去糖") {
     <h2 id="drink-name">隨機飲料</h2>
     <p>冰塊: <span id="ice-option"></span></p>
     <p>糖度: <span id="sugar-option"></span></p>
+	<div style="position: absolute; top: 10px; right: 10px; text-align: right;">
+    <p>連續答對: <span id="連續答對">0</span></p>
+    <p>累積答對: <span id="累積答對">0</span></p>
+</div>
     
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; width: 100%; flex-wrap: wrap;">
     <!-- 冰塊（最左邊） -->
