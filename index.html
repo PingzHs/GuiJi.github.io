@@ -569,7 +569,7 @@ if (noSugarDrinks.includes(randomDrink.品名) && randomSugar === "去糖") {
         function checkAnswer() {
     const selectedOptions = {
         冰塊: document.getElementById("冰塊選擇").value,
-        甜度: document.getElementById("甜度").value, // 甜度是字串（如 "正常"）
+        甜度: parseInt(document.getElementById("甜度").value) || 0,
         條件: document.querySelector("input[name='條件']:checked")?.value || "",
         去糖退檔: document.querySelector("input[name='去糖退檔']:checked")?.value || "",
         檔速: parseInt(document.getElementById("檔速").value) || 0,
@@ -609,7 +609,7 @@ if (String(selectedIce) !== correctIce) {
     if (Number.isNaN(adjustedSugar) || adjustedSugar < 0) adjustedSugar = 0;
 	
 
-    if (selectedOptions.甜度 !== String(adjustedSugar)) {
+    if (selectedOptions.甜度 !== adjustedSugar) {
         correct = false;
         correctAnswer += `甜度: ${adjustedSugar}\n`;
     }
@@ -658,12 +658,10 @@ if (milkReductionItems.has(currentQuestion.品名) && currentQuestion.加料 > 0
 const correctWater = (currentQuestion?.成分?.水 || 0) + waterAdjustment;
 const correctMilk = Math.max(0, (currentQuestion?.成分?.鮮奶 || 0) + milkAdjustment); // 確保不為負數
 
-// 🔹 **比對茶 & 水**
 
 
 // 🔹 **比對所有其他成分**
 for (let ingredient in currentQuestion.成分) {
-      // 茶與水已經特別處理
         let selectedAmount = selectedOptions[`茶湯_${ingredient}`] || 0;
         let correctAmount = currentQuestion.成分[ingredient] || 0;
 
