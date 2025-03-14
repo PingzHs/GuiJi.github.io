@@ -473,7 +473,12 @@ function getRandomQuestion() {
     else return 2; // 15% 機率選 2
 }
 			const randomNumber = getWeightedRandom(); // 產生加權隨機數
-            currentQuestion = { ...randomDrink, 冰塊: randomIce, 甜度: randomSugar, 加料: randomNumber };
+            const randomNumber = getWeightedRandom(); // 產生加權隨機數
+            if (randomDrink.品名 === "熱原純茶(去/去)") {
+    			currentQuestion = { ...randomDrink, 冰塊: "去冰", 甜度: "去糖", 加料: randomNumber };
+			} else {
+    			currentQuestion = { ...randomDrink, 冰塊: randomIce, 甜度: randomSugar, 加料: randomNumber };
+			} 
             document.getElementById("drink-name").textContent = currentQuestion.品名;
             document.getElementById("ice-option").textContent = currentQuestion.冰塊;
             document.getElementById("sugar-option").textContent = currentQuestion.甜度;
