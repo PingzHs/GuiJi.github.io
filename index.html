@@ -677,12 +677,21 @@ for (let ingredient in currentQuestion.成分) {
 
 
     // 其他項目比對
-    for (let key of ["條件", "檔速", "杯內副料", "去糖退檔"]) {
-        if ((selectedOptions[key] || "") !== (currentQuestion[key] || "")) {
-            correct = false;
-            correctAnswer += `${key}: ${currentQuestion[key]}\n`;
-        }
+    let correctSpeed = parseInt(currentQuestion["檔速"], 10) || 0;
+
+// 如果糖 = "去糖" 且 "去糖退檔" = "要"，則檔速要 -1
+if (selectedOptions["糖度"] === "去糖" && selectedOptions["去糖退檔"] === "要") {
+    correctSpeed -= 1;
+}
+
+for (let key of ["條件", "檔速", "杯內副料"]) {
+    let correctValue = key === "檔速" ? correctSpeed : currentQuestion[key];
+
+    if ((selectedOptions[key] || "") !== (correctValue || "")) {
+        correct = false;
+        correctAnswer += `${key}: ${correctValue}\n`;
     }
+}
 
     if (correct) {
         alert("答對了！下一題");
@@ -851,12 +860,6 @@ input[type="number"] {
                     <label><input type="radio" name="條件" value="茶"> 茶</label>
                     <label><input type="radio" name="條件" value="水"> 水</label>
                     <label><input type="radio" name="條件" value="各半"> 各半</label>
-                </div>
-                <div>
-                    <h3>去糖退檔</h3>
-                    <label><input type="radio" name="去糖退檔" value="要"> 要</label>
-                    <label><input type="radio" name="去糖退檔" value="不要"> 不要</label>
-                    <label><input type="radio" name="去糖退檔" value="最低一分糖"> 最低一分糖</label>
                 </div>
             </div>
         
