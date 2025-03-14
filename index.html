@@ -514,6 +514,11 @@ const noSugarDrinks = [
     "葡薈四季春",
     "巧克鮮乳茶"
 ];
+	const fixedSugarDrinks = [
+    "蜂蜜綠茶",
+    "蜂蜜四季春",
+    "三韻奶茶"
+];
 
 // 檢查是否屬於限制品名，若是且 sugar 為 "去糖"，則重新選擇
 if (noSugarDrinks.includes(randomDrink.品名) && randomSugar === "去糖") {
@@ -530,7 +535,9 @@ if (noSugarDrinks.includes(randomDrink.品名) && randomSugar === "去糖") {
 			const randomNumber = getWeightedRandom(); // 產生加權隨機數
             if (randomDrink.品名 === "熱原純茶(去/去)") {
     			currentQuestion = { ...randomDrink, 冰塊: "去冰", 甜度: "去糖", 加料: randomNumber };
-			} else {
+			} else if(fixedSugarDrinks.includes(randomDrink.品名)){
+		    	currentQuestion = { ...randomDrink, 冰塊: randomIce, 甜度: "固定", 加料: randomNumber };
+			}else {
     			currentQuestion = { ...randomDrink, 冰塊: randomIce, 甜度: randomSugar, 加料: randomNumber };
 			} 
             document.getElementById("drink-name").textContent = currentQuestion.品名;
