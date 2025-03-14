@@ -618,7 +618,7 @@ if (String(selectedIce) !== correctIce) {
     let teaAdjustment = 0, waterAdjustment = 0, milkAdjustment = 0;
 
 // 甜度影響（如果不是"正常"）
-if (currentQuestion.甜度 !== "正常") {
+if (currentQuestion.甜度 !== "正常" && currentQuestion.甜度 !== "固定") {
     const adjustment = adjustTeaAndWater(currentQuestion.條件, 20);
     teaAdjustment += adjustment.茶;
     waterAdjustment += adjustment.水;
