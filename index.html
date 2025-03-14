@@ -677,10 +677,10 @@ for (let ingredient in currentQuestion.成分) {
 
 
     // 其他項目比對
-    let correctSpeed = parseInt(currentQuestion["檔速"], 10) || 0;
+    let correctSpeed = parseInt(currentQuestion.檔速, 10) || 0;
 
 // 如果糖 = "去糖" 且 "去糖退檔" = "要"，則檔速要 -1
-if (selectedOptions["糖度"] === "去糖" && selectedOptions["去糖退檔"] === "要") {
+if (currentQuestion.甜度 === "去糖" && currentQuestion.去糖退檔 === "要") {
     correctSpeed -= 1;
 }
 
@@ -703,8 +703,6 @@ for (let key of ["條件", "檔速", "杯內副料"]) {
         cc = 0;
         getRandomQuestion();
     }
-	document.getElementById("連續答對").textContent = cc;
-    document.getElementById("累積答對").textContent = ac;
     document.getElementById("冰塊選擇").value = "尖";  // 重置冰塊選擇
     document.getElementById("冰塊數字").value = "";     // 清空冰塊數字
     document.getElementById("冰塊數字").style.display = "none";  // 隱藏數字輸入框
