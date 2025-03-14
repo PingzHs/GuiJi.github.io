@@ -4,7 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>飲料製作小遊戲</title>
+	<title>jQuery UI Dialog - Default functionality</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css" />
     <script>
+        $(function() {
+$( "#dialog" ).dialog({
+modal: true,
+buttons: {
+Ok: function() {
+$( this ).dialog( "close" );
+}
+}
+});
+});
         const drinksData = [
             {
         "品名": "紅/綠/普洱",
@@ -702,15 +717,37 @@ for (let key of ["條件", "檔速", "杯內副料"]) {
 }
 
     if (correct) {
-        alert("答對了！下一題");
-        cc++;
-        ac++;
-        getRandomQuestion();
-    } else {
-        alert("答錯了！正確答案:\n" + correctAnswer);
-        cc = 0;
-        getRandomQuestion();
+    alert("答對了！下一題");
+    cc++;
+    ac++;
+    getRandomQuestion();
+
+    // 檢查 cc 是否能整除 5
+    if (ac % 5 === 0) {
+        // 顯示圖片對話框
+        $("<div title='恭喜！累積答對: " + ac + "題'></div>")
+            .html("<img src='image/good.jpg' alt='Congratulations' width='500' height='500' />")  // 替換為你圖片的 URL
+            .dialog({
+                modal: true,
+                width: 600,    // 設置對話框寬度
+                height: 600,   // 設置對話框高度
+                position: {    // 設置對話框居中
+                    my: "center",  
+                    at: "center", 
+                    of: window
+                },
+                buttons: {
+                    "OK": function() {
+                        $(this).dialog("close");
+                    }
+                }
+            });
     }
+} else {
+    alert("答錯了！正確答案:\n" + correctAnswer);
+    cc = 0;
+    getRandomQuestion();
+}
     document.getElementById("冰塊選擇").value = "尖";  // 重置冰塊選擇
     document.getElementById("冰塊數字").value = "";     // 清空冰塊數字
     document.getElementById("冰塊數字").style.display = "none";  // 隱藏數字輸入框
