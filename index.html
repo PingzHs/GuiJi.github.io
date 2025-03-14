@@ -723,15 +723,42 @@ for (let ingredient in currentQuestion.成分) {
 
     </script>
 </head>
+<style>
+    body {
+        background-image: url('background.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 90%;
+    margin: 30px auto;
+    position: relative;  /* 新增這行 */
+}
+
+.stats {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-align: right;
+}
+
+</style>
+
 <body onload="getRandomQuestion()">
+    <div class="container">
+        <div class="stats">
+            <p>連續答對: <span id="連續答對">0</span></p>
+            <p>累積答對: <span id="累積答對">0</span></p>
+        </div>
     <h2 id="drink-name">隨機飲料</h2>
     <p>冰塊: <span id="ice-option"></span></p>
     <p>糖度: <span id="sugar-option"></span></p>
     <p>加料: <span id="add-option"></span></p>
-	<div style="position: absolute; top: 10px; right: 10px; text-align: right;">
-    <p>連續答對: <span id="連續答對">0</span></p>
-    <p>累積答對: <span id="累積答對">0</span></p>
-</div>
+	
     
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; width: 100%; flex-wrap: wrap;">
     <!-- 冰塊（最左邊） -->
@@ -814,6 +841,7 @@ for (let ingredient in currentQuestion.成分) {
     <button onclick="checkAnswer()" style="padding: 10px 20px; font-size: 18px; border-radius: 8px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
         提交
     </button>
+</div>
 </div>
 </body>
 </html>
