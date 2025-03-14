@@ -725,135 +725,157 @@ for (let ingredient in currentQuestion.成分) {
 </head>
 <style>
     body {
-        background-image: url('image/background.jpg');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-    .container {
+    background-image: url('image/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.container {
     background-color: rgba(255, 255, 255, 0.8);
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
     max-width: 90%;
-    margin: 30px auto;
-    position: relative;  /* 新增這行 */
+    margin: 10px auto;
+    position: relative;
+}
+
+.container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 150px;
+    z-index: 1;
+}
+
+#drink-name, .options {
+    position: absolute;
+    top: 20px;
+    left: 45px;
+    z-index: 2;
+}
+
+.options {
+    margin-top: 40px;
+    display: flex;
+}
+.options p {
+        margin-right: 20px;
+    }
+/* 下面的區塊距離圖片下方的間距 */
+.content {
+    margin-top: 180px; /* 這個數值根據需要調整，保證圖片下方有適當的間距 */
+    padding: 10px;
 }
 
 .stats {
     position: absolute;
-    top: 10px;
+    top: 50px;
     right: 10px;
     text-align: right;
 }
-#drink-name {
-        margin-bottom: 0px; /* 設定標題與選項的距離 */
-    }
-    .options {
-        display: flex;
-    }
-    .options p {
-        margin-right: 20px;
-    }
+
+
 
 </style>
 
 <body onload="getRandomQuestion()">
     <div class="container">
-        <div class="stats">
-            <p>連續答對: <span id="連續答對">0</span></p>
-            <p>累積答對: <span id="累積答對">0</span></p>
+        
+        <img src="image/note.png" alt="題目"> 
+        <h2 id="drink-name">隨機飲料</h2>
+        <div class="options">
+            <p>冰塊: <span id="ice-option"></span></p>
+            <p>糖度: <span id="sugar-option"></span></p>
+            <p>加料: <span id="add-option"></span></p>
         </div>
-    <h2 id="drink-name">隨機飲料</h2>
-    <div class="options">
-        <p>冰塊: <span id="ice-option"></span></p>
-        <p>糖度: <span id="sugar-option"></span></p>
-        <p>加料: <span id="add-option"></span></p>
-    </div>
+      
 	
     
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; width: 100%; flex-wrap: wrap;">
-    <!-- 冰塊（最左邊） -->
-    <div style="flex: 1; min-width: 100px; max-width: 33%; display: flex; flex-direction: column; align-items: flex-start;">
-        <h3 style="margin: 0; text-align: left;">冰塊</h3>
-        <select id="冰塊選擇" style="margin-top: 5px; width: 90%;" 
-    onchange="document.getElementById('冰塊數字').style.display = this.value === '數字' ? 'inline' : 'none'">
-    <option value="尖">尖</option>
-    <option value="平">平</option>
-    <option value="數字">填入數字</option>
-</select>
-<input type="number" id="冰塊數字" style="display: none; margin-top: 5px; width: 90%;" placeholder="輸入數字">
-
-    </div>
-
-    <!-- 甜度（正中間） -->
-    <div style="flex: 1; min-width: 100px; max-width: 33%; display: flex; flex-direction: column; align-items: center;">
-        <h3 style="margin: 0; text-align: left; width: 90%;">甜度</h3>
-        <input type="number" id="甜度" min="0" max="100" placeholder="輸入甜度" style="margin-top: 5px; width: 90%;">
-    </div>
-
-    <!-- 檔速（最右邊） -->
-    <div style="flex: 1; min-width: 100px; max-width: 33%; display: flex; flex-direction: column; align-items: flex-end;">
-        <h3 style="margin: 0; text-align: left; width: 90%;">檔速</h3>
-        <input type="number" id="檔速" min="0" max="100" placeholder="輸入檔速" style="margin-top: 5px; width: 90%;">
-    </div>
-</div>
-
-
-
-    <div>
-        <h3>茶湯</h3>
-        <input type="number" id="茶湯_茶" placeholder="茶: 輸入數字">
-        <input type="number" id="茶湯_水" placeholder="水: 輸入數字">
-        <input type="number" id="茶湯_楊桃" placeholder="楊桃: 輸入數字">
-        <input type="number" id="茶湯_冬瓜" placeholder="冬瓜: 輸入數字">
-        <input type="number" id="茶湯_豆漿" placeholder="豆漿: 輸入數字">
-        <input type="number" id="茶湯_甘蔗" placeholder="甘蔗: 輸入數字"> 
-        <input type="number" id="茶湯_檸檬" placeholder="檸檬: 輸入數字">
-        <input type="number" id="茶湯_柚子" placeholder="柚子: 輸入數字">
-        <input type="number" id="茶湯_柳丁" placeholder="柳丁: 輸入數字">
-        <input type="number" id="茶湯_蘋果" placeholder="蘋果: 輸入數字">
-        <input type="number" id="茶湯_鳳梨" placeholder="鳳梨: 輸入數字">
-        <input type="number" id="茶湯_葡萄" placeholder="葡萄: 輸入數字">
-        <input type="number" id="茶湯_奶精" placeholder="奶精: 輸入數字">
-        <input type="number" id="茶湯_鮮奶" placeholder="鮮奶: 輸入數字">
-        <input type="number" id="茶湯_濃乳" placeholder="濃乳: 輸入數字">
-        <input type="number" id="茶湯_蜜" placeholder="蜜: 輸入數字">
-        <input type="number" id="茶湯_巧克力水" placeholder="巧克力水: 輸入數字">
-    </div>
-    <div style="display: flex; gap: 20px;">
-    <div>
-        <h3>條件</h3>
-        <label><input type="radio" name="條件" value="茶"> 茶</label>
-        <label><input type="radio" name="條件" value="水"> 水</label>
-        <label><input type="radio" name="條件" value="各半"> 各半</label>
-    </div>
-    <div>
-        <h3>去糖退檔</h3>
-        <label><input type="radio" name="去糖退檔" value="要"> 要</label>
-        <label><input type="radio" name="去糖退檔" value="不要"> 不要</label>
-        <label><input type="radio" name="去糖退檔" value="最低一分糖"> 最低一分糖</label>
-    </div>
-</div>
+        <div class="content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; width: 100%; flex-wrap: wrap;">
+                <!-- 冰塊（最左邊） -->
+                <div style="flex: 1; min-width: 100px; max-width: 33%; display: flex; flex-direction: column; align-items: flex-start;">
+                    <h3 style="margin: 0; text-align: left;">冰塊</h3>
+                    <select id="冰塊選擇" style="margin-top: 5px; width: 90%;" onchange="document.getElementById('冰塊數字').style.display = this.value === '數字' ? 'inline' : 'none'">
+                        <option value="尖">尖</option>
+                        <option value="平">平</option>
+                        <option value="數字">填入數字</option>
+                    </select>
+                    <input type="number" id="冰塊數字" style="display: none; margin-top: 5px; width: 90%;" placeholder="輸入數字">
+                </div>
     
-    <div>
-        <h3>杯內副料</h3>
-<select id="杯內副料">
-    <option value="無">無</option>
-    <option value="檸檬 30 (回放)">檸檬 30 (回放)</option>
-    <option value="珍珠  140±5 克">珍珠  140±5 克</option>
-    <option value="百香  60">百香  60</option>
-    <option value="檸檬 50 (回放)">檸檬 50 (回放)</option>
-    <option value="蘆薈 80±5g">蘆薈 80±5g</option>
-    <option value="紅柚 150">紅柚 150</option>
-    <option value="蘆薈 110±5g">蘆薈 110±5g</option>
-    <option value="蜜桃 100">蜜桃 100</option>
-</select>
-    <div style="text-align: center; margin-top: 20px;">
-    <button onclick="checkAnswer()" style="padding: 10px 20px; font-size: 18px; border-radius: 8px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
-        提交
-    </button>
-</div>
+                <!-- 甜度（正中間） -->
+                <div style="flex: 1; min-width: 100px; max-width: 33%; display: flex; flex-direction: column; align-items: center;">
+                    <h3 style="margin: 0; text-align: left; width: 90%;">甜度</h3>
+                    <input type="number" id="甜度" min="0" max="100" placeholder="輸入甜度" style="margin-top: 5px; width: 90%;">
+                </div>
+    
+                <!-- 檔速（最右邊） -->
+                <div style="flex: 1; min-width: 100px; max-width: 33%; display: flex; flex-direction: column; align-items: flex-end;">
+                    <h3 style="margin: 0; text-align: left; width: 90%;">檔速</h3>
+                    <input type="number" id="檔速" min="0" max="100" placeholder="輸入檔速" style="margin-top: 5px; width: 90%;">
+                </div>
+            </div>
+    
+            <div>
+                <h3>茶湯</h3>
+                <input type="number" id="茶湯_茶" placeholder="茶: 輸入數字">
+                <input type="number" id="茶湯_水" placeholder="水: 輸入數字">
+                <input type="number" id="茶湯_楊桃" placeholder="楊桃: 輸入數字">
+                <input type="number" id="茶湯_冬瓜" placeholder="冬瓜: 輸入數字">
+                <input type="number" id="茶湯_豆漿" placeholder="豆漿: 輸入數字">
+                <input type="number" id="茶湯_甘蔗" placeholder="甘蔗: 輸入數字"> 
+                <input type="number" id="茶湯_檸檬" placeholder="檸檬: 輸入數字">
+                <input type="number" id="茶湯_柚子" placeholder="柚子: 輸入數字">
+                <input type="number" id="茶湯_柳丁" placeholder="柳丁: 輸入數字">
+                <input type="number" id="茶湯_蘋果" placeholder="蘋果: 輸入數字">
+                <input type="number" id="茶湯_鳳梨" placeholder="鳳梨: 輸入數字">
+                <input type="number" id="茶湯_葡萄" placeholder="葡萄: 輸入數字">
+                <input type="number" id="茶湯_奶精" placeholder="奶精: 輸入數字">
+                <input type="number" id="茶湯_鮮奶" placeholder="鮮奶: 輸入數字">
+                <input type="number" id="茶湯_濃乳" placeholder="濃乳: 輸入數字">
+                <input type="number" id="茶湯_蜜" placeholder="蜜: 輸入數字">
+                <input type="number" id="茶湯_巧克力水" placeholder="巧克力水: 輸入數字">
+            </div>
+    
+            <div style="display: flex; gap: 20px;">
+                <div>
+                    <h3>條件</h3>
+                    <label><input type="radio" name="條件" value="茶"> 茶</label>
+                    <label><input type="radio" name="條件" value="水"> 水</label>
+                    <label><input type="radio" name="條件" value="各半"> 各半</label>
+                </div>
+                <div>
+                    <h3>去糖退檔</h3>
+                    <label><input type="radio" name="去糖退檔" value="要"> 要</label>
+                    <label><input type="radio" name="去糖退檔" value="不要"> 不要</label>
+                    <label><input type="radio" name="去糖退檔" value="最低一分糖"> 最低一分糖</label>
+                </div>
+            </div>
+        
+            <div>
+                <h3>杯內副料</h3>
+                <select id="杯內副料">
+                    <option value="無">無</option>
+                    <option value="檸檬 30 (回放)">檸檬 30 (回放)</option>
+                    <option value="珍珠  140±5 克">珍珠  140±5 克</option>
+                    <option value="百香  60">百香  60</option>
+                    <option value="檸檬 50 (回放)">檸檬 50 (回放)</option>
+                    <option value="蘆薈 80±5g">蘆薈 80±5g</option>
+                    <option value="紅柚 150">紅柚 150</option>
+                    <option value="蘆薈 110±5g">蘆薈 110±5g</option>
+                    <option value="蜜桃 100">蜜桃 100</option>
+                </select>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="checkAnswer()" style="padding: 10px 20px; font-size: 18px; border-radius: 8px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
+                    提交
+                </button>
+            </div>
+        </div>
 </div>
 </body>
 </html>
-
