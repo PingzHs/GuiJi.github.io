@@ -673,7 +673,13 @@ if (milkReductionItems.has(currentQuestion.品名) && currentQuestion.加料 > 0
 const correctWater = (currentQuestion?.成分?.水 || 0) + waterAdjustment;
 const correctMilk = Math.max(0, (currentQuestion?.成分?.鮮奶 || 0) + milkAdjustment); // 確保不為負數
 
+const correctTea = (currentQuestion?.成分?.茶 || 0) + teaAdjustment;
+    const correctWater = (currentQuestion?.成分?.水 || 0) + waterAdjustment;
 
+    if (selectedOptions.茶湯_茶 !== correctTea || selectedOptions.茶湯_水 !== correctWater) {
+        correct = false;
+        correctAnswer += 茶湯: 茶 ${correctTea}, 水 ${correctWater}\n;
+    }
 
 // 🔹 **比對所有其他成分**
 for (let ingredient in currentQuestion.成分) {
@@ -681,12 +687,7 @@ for (let ingredient in currentQuestion.成分) {
         let correctAmount = currentQuestion.成分[ingredient] || 0;
 
         // ✅ **如果是鮮乳，則使用 `correctMilk` 進行比對**
-	    if (ingredient === "茶") {
-            correctAmount = correctTea; 
-        }
-	    if (ingredient === "水") {
-            correctAmount = correctWater; 
-        }
+	    
         if (ingredient === "鮮奶") {
             correctAmount = correctMilk; 
         }
