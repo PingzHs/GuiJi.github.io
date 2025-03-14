@@ -656,8 +656,8 @@ if (milkReductionItems.has(currentQuestion.品名) && currentQuestion.加料 > 0
     milkAdjustment = -20 * currentQuestion.加料; 
 }
 
-    const correctTea = (currentQuestion?.成分?.茶 || 0) + teaAdjustment;
-const correctWater = (currentQuestion?.成分?.水 || 0) + waterAdjustment;
+    let correctTea = (currentQuestion?.成分?.茶 || 0) + teaAdjustment;
+let correctWater = (currentQuestion?.成分?.水 || 0) + waterAdjustment;
 const correctMilk = Math.max(0, (currentQuestion?.成分?.鮮奶 || 0) + milkAdjustment); // 確保不為負數
 if (correctTea<0) {
     correctWater += correctTea;
