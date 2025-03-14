@@ -659,7 +659,14 @@ if (milkReductionItems.has(currentQuestion.品名) && currentQuestion.加料 > 0
     const correctTea = (currentQuestion?.成分?.茶 || 0) + teaAdjustment;
 const correctWater = (currentQuestion?.成分?.水 || 0) + waterAdjustment;
 const correctMilk = Math.max(0, (currentQuestion?.成分?.鮮奶 || 0) + milkAdjustment); // 確保不為負數
-
+if (correctTea<0) {
+    correctWater += correctTea;
+    correctTea = 0;
+}
+if (correctWater<0) {
+    correctTea += correctWater;
+    correctWater = 0;
+}
 // 🔹 **比對茶 & 水**
 if (selectedOptions.茶湯_茶 !== correctTea || selectedOptions.茶湯_水 !== correctWater) {
     correct = false;
