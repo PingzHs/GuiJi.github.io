@@ -528,7 +528,7 @@ if (noSugarDrinks.includes(randomDrink.品名) && randomSugar === "去糖") {
     const filteredSugarOptions = sugarOptions.filter(sugar => sugar !== "去糖");
     randomSugar = filteredSugarOptions[Math.floor(Math.random() * filteredSugarOptions.length)];
 }
-            function getWeightedRandom() {
+            window.getWeightedRandom = function(){
     const rand = Math.random();
     if (rand < 0.7) return 0; // 70% 機率選 0
     else if (rand < 0.9) return 1; // 15% 機率選 1
@@ -710,9 +710,9 @@ for (let key of ["條件", "檔速", "杯內副料"]) {
 }
 
 if (correct) {
-    alert("答對了！下一題");
     cc++;
     ac++;
+    alert("答對了！下一題\n" + "連續答對: " + cc + "\n累積答對: " + ac);
     getRandomQuestion();
 
     // 檢查 cc 是否能整除 5
@@ -729,16 +729,40 @@ if (correct) {
                     at: "center", 
                     of: window
                 },
-                buttons: {
-                    "OK": function() {
-                        $(this).dialog("close");
-                    }
-                }
             });
     }
 } else {
-    alert("答錯了！正確答案:\n" + correctAnswer);
+    alert("答錯了！正確答案:\n" + correctAnswer + "\n累積答對: " + ac);
     cc = 0;
+	const punish = getWeightedRandom();
+    if(punish === 1){
+        $("<div title='隨機懲罰'></div>")
+        .html("<video src='video/RickRoll.mp4' width='300' height='300' controls autoplay></video>")
+    .dialog({
+        modal: true,
+        width: 350,    // 設置對話框寬度
+        height: 350,   // 設置對話框高度
+        position: {    // 設置對話框居中
+            my: "center",  
+            at: "center", 
+            of: window
+        },
+    });
+    }else if(punish === 2){
+        $("<div title='隨機懲罰'></div>")
+        .html("<video src='video/BigSea.mp4' width='300' height='300' controls autoplay></video>")
+    .dialog({
+        modal: true,
+        width: 350,    // 設置對話框寬度
+        height: 350,   // 設置對話框高度
+        position: {    // 設置對話框居中
+            my: "center",  
+            at: "center", 
+            of: window
+        },
+        
+    });
+    }
     getRandomQuestion();
 }
     document.getElementById("冰塊選擇").value = "尖";  // 重置冰塊選擇
